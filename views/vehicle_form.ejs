@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link href="/stylesheets/output.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="w-full">
+      <ul class="flex flex-row justify-end gap-x-6">
+        <li>
+          <a href="/inventory">Home</a>
+        </li>
+        <li>
+          <a href="/inventory/vehicles">Vehicles</a>
+        </li>
+        <li>
+          <a href="/inventory/makes">Makes</a>
+        </li>
+        <li>
+          <a href="/inventory/vehicle/create">Add New Vehicle</a>
+        </li>
+        <li>
+          <a href="/inventory/make/create">Add New Make</a>
+        </li>
+      </ul>
+    </div>
+
+    <h1><%= title %></h1>
+
+    <form method="post">
+      <div>
+        <label for="year">Year:</label>
+        <input
+          id="year"
+          name="year"
+          type="number"
+          placeholder="Ex. 2022"
+          required
+          value="<%= typeof year === `undefined` ? `` : year %>"
+          autocomplete="off"
+        />
+        <label for="make">Make:</label>
+        <select name="make" id="make" required>
+          <% for (item of makes) { %> <% if (typeof make != "undefined") { %> <%
+          if (item.id === make.id) { %>
+          <option selected value="<%= item.id %>"><%= item.name %></option>
+          <% } else { %>
+          <option value="<%= item.id %>"><%= item.name %></option>
+          <% } %> <% } else { %>
+          <option value="<%= item.id %>"><%= item.name %></option>
+          <% } %> <% } %>
+        </select>
+
+        <label for="model">Model:</label>
+        <input
+          id="model"
+          name="model"
+          type="text"
+          placeholder="Ex. Tacoma"
+          required
+          value="<%= typeof model === `undefined` ? `` : model %>"
+          autocomplete="off"
+        />
+
+        <label for="trim">Trim:</label>
+        <input
+          id="trim"
+          name="trim"
+          type="text"
+          placeholder="Ex. TRD Pro"
+          required
+          value="<%= typeof trim === `undefined` ? `` : trim %>"
+          autocomplete="off"
+        />
+
+        <label for="vin">VIN #:</label>
+        <input
+          id="vin"
+          name="vin"
+          type="text"
+          placeholder="VIN #"
+          required
+          value="<%= typeof vin === `undefined` ? `` : vin %>"
+          autocomplete="off"
+        />
+
+        <label for="price">Price:</label>
+        <input
+          id="price"
+          name="price"
+          type="number"
+          placeholder="29995"
+          required
+          value="<%= typeof price === `undefined` ? `` : price %>"
+          autocomplete="off"
+        />
+
+        <label for="miles">Mileage:</label>
+        <input
+          id="miles"
+          name="miles"
+          type="number"
+          placeholder="50000"
+          required
+          value="<%= typeof miles === `undefined` ? `` : miles %>"
+          autocomplete="off"
+        />
+        <button type="submit">Submit</button>
+      </div>
+    </form>
+    <% if (typeof errors !== `undefined`) { %>
+    <ul>
+      <% for (item of errors) { %>
+      <li><%= item.msg %></li>
+      <% } %>
+    </ul>
+    <% } %>
+  </body>
+</html>

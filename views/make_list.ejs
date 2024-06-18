@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link href="/stylesheets/output.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="w-full">
+      <ul class="flex flex-row justify-end gap-x-6">
+        <li>
+          <a href="/inventory">Home</a>
+        </li>
+        <li>
+          <a href="/inventory/vehicles">Vehicles</a>
+        </li>
+        <li>
+          <a href="/inventory/makes">Makes</a>
+        </li>
+        <li>
+          <a href="/inventory/vehicle/create">Add New Vehicle</a>
+        </li>
+        <li>
+          <a href="/inventory/make/create">Add New Make</a>
+        </li>
+      </ul>
+    </div>
+
+    <h1><%= title %></h1>
+    <% if (make_list.length) { %>
+    <ul>
+      <% for (item of make_list) { %>
+      <li>
+        <a href="<%= item.url %>"><%= item.name %></a>
+      </li>
+      <% } %>
+    </ul>
+    <% } %>
+  </body>
+</html>

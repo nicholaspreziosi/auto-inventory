@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link href="/stylesheets/output.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="w-full">
+      <ul class="flex flex-row justify-end gap-x-6">
+        <li>
+          <a href="/inventory">Home</a>
+        </li>
+        <li>
+          <a href="/inventory/vehicles">Vehicles</a>
+        </li>
+        <li>
+          <a href="/inventory/makes">Makes</a>
+        </li>
+        <li>
+          <a href="/inventory/vehicle/create">Add New Vehicle</a>
+        </li>
+        <li>
+          <a href="/inventory/make/create">Add New Make</a>
+        </li>
+      </ul>
+    </div>
+    <h1><%= title %>: <%= make.name %></h1>
+
+    <% if (make_vehicles.length > 0) { %>
+    <p>Delete the following vehicles before attempting to delete this make.</p>
+    <div>
+      <h4>Vehicles</h4>
+      <% for (item of make_vehicles) { %>
+      <a href="<%= item.url %>"><%= item.year %> <%= make.name %> <%= item.model %> <%= item.vin %></p>
+      <% } %>
+    </div>
+    <% } else { %>
+    <p>Do you really want to delete this make?</p>
+
+    <form method="post">
+      <input type="hidden" name="makeid" value="<%= make.id %>">
+      <button type="submit">Delete</button>
+    </form>
+    <% } %>
+  </body>
+</html>
