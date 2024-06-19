@@ -5,9 +5,15 @@ const { body, validationResult } = require("express-validator");
 
 // Display list of all Makes.
 exports.make_list = asyncHandler(async (req, res, next) => {
-  const allMakes = await Make.find({}, "name").sort({ name: 1 }).exec();
+  const [numVehicles, numMakes, allMakes] = await Promise.all([
+    Vehicle.countDocuments({}).exec(),
+    Make.countDocuments({}).exec(),
+    Make.find({}, "name").sort({ name: 1 }).exec(),
+  ]);
   res.render("make_list", {
-    title: "Pre-Owned Vehicle Makes",
+    title: "Pre-Owned Vehicles",
+    vehicle_count: numVehicles,
+    make_count: numMakes,
     make_list: allMakes,
   });
 });
