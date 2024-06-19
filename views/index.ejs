@@ -9,8 +9,11 @@
     <link href="/stylesheets/output.css" rel="stylesheet" />
   </head>
   <body>
-    <div class="w-full">
-      <ul class="flex flex-row justify-end gap-x-6">
+    <div class="p-8 w-full bg-gradient-to-b from-purple-700 to-purple-400">
+      <h1 class="w-full text-center text-white"><%= title %></h1>
+      <ul
+        class="p-8 flex flex-row justify-center align-center gap-x-6 text-white"
+      >
         <li>
           <a href="/inventory">Home</a>
         </li>
@@ -21,21 +24,25 @@
           <a href="/inventory/makes">Makes</a>
         </li>
         <li>
-          <a href="/inventory/vehicle/create">Add New Vehicle</a>
+          <a href="/inventory/vehicle/create">Add Vehicle</a>
         </li>
         <li>
-          <a href="/inventory/make/create">Add New Make</a>
+          <a href="/inventory/make/create">Add Make</a>
         </li>
       </ul>
     </div>
 
-    <h1><%= title %></h1>
-    <p>View Our Pre-Owned Vehicles</p>
-
-    <p>The inventory has the following record counts:</p>
-    <ul>
-      <li><strong>Makes:</strong> <%= make_count %></li>
-      <li><strong>Vehicles:</strong> <%= vehicle_count %></li>
-    </ul>
+    <div
+      class="mx-4 px-8 py-4 flex flex-row justify-between -translate-y-2/4 bg-white rounded-lg shadow-md"
+    >
+      <div class="text-center">
+        <p><strong><%= vehicle_count %></strong></p>
+        <p>Vehicles</p>
+      </div>
+      <div class="text-center">
+        <p><strong><%= make_count %></strong></p>
+        <p>Makes</p>
+      </div>
+    </div>
   </body>
 </html>

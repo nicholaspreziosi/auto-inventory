@@ -18,10 +18,15 @@ VehicleSchema.virtual("url").get(function () {
   return `/inventory/vehicle/${this._id}`;
 });
 
-// Virtual for vehicles's URL
+// Virtual for vehicles's stock
 VehicleSchema.virtual("stock").get(function () {
   let stock = this.vin.substring(this.vin.length - 8);
   return stock;
+});
+
+// Virtual for vehicles's formatted price
+VehicleSchema.virtual("priceFormatted").get(function () {
+  return this.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 });
 
 // Export model

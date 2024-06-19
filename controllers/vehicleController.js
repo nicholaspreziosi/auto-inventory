@@ -9,7 +9,7 @@ exports.index = asyncHandler(async (req, res, next) => {
     Make.countDocuments({}).exec(),
   ]);
   res.render("index", {
-    title: "Pre-Owned Inventory",
+    title: "Pre-Owned Vehicles",
     vehicle_count: numVehicles,
     make_count: numMakes,
   });
@@ -17,13 +17,19 @@ exports.index = asyncHandler(async (req, res, next) => {
 
 // Display list of all vehicles.
 exports.vehicle_list = asyncHandler(async (req, res, next) => {
-  const allVehicles = await Vehicle.find({}, "year make model price trim vin")
-    .sort({ price: 1 })
-    .populate("make")
-    .exec();
+  const [allVehicles, numVehicles, numMakes] = await Promise.all([
+    Vehicle.find({}, "year make model price trim vin")
+      .sort({ price: 1 })
+      .populate("make")
+      .exec(),
+    Vehicle.countDocuments({}).exec(),
+    Make.countDocuments({}).exec(),
+  ]);
   res.render("vehicle_list", {
     title: "Pre-Owned Vehicles",
     vehicle_list: allVehicles,
+    make_count: numMakes,
+    vehicle_count: numVehicles,
   });
 });
 

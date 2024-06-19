@@ -5,4 +5,9 @@ module.exports = {
     extend: {},
   },
   plugins: [],
+  theme: {
+    fontFamily: {
+      satoshi: ["satoshi", "sans-serif"],
+    },
+  },
 };

@@ -6,7 +6,8 @@
     "start": "node ./bin/www",
     "devstart": "nodemon ./bin/www",
     "serverstart": "DEBUG=auto-inventory:* npm run devstart",
-    "tailwind:css": "npx tailwindcss -i ./public/stylesheets/input.css -o ./public/stylesheets/output.css --watch"
+    "tailwind:css": "npx tailwindcss -i ./public/stylesheets/input.css -o ./public/stylesheets/output.css --watch",
+    "appbuild": "npx tailwindcss -i ./public/stylesheets/input.css -o ./public/stylesheets/output.css && DEBUG=auto-inventory:* npm run devstart"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",

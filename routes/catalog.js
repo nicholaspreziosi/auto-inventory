@@ -32,7 +32,7 @@ router.get("/makes", make_controller.make_list);
 
 /// VEHICLE ROUTES ///
 // GET catalog home page.
-router.get("/", vehicle_controller.index);
+router.get("/", vehicle_controller.vehicle_list);
 
 // GET request for creating a vehicle. NOTE This must come before routes that display vehicle (uses id).
 router.get("/vehicle/create", vehicle_controller.vehicle_create_get);
