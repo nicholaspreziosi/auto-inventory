@@ -13,7 +13,7 @@
     <div
       class="px-4 pt-8 pb-16 w-full bg-gradient-to-b from-purple-700 to-purple-400 flex row justify-center align-center md:px-8"
     >
-      <a href="/inventory"
+      <a href="/inventory/vehicles"
         ><img class="w-8 cursor-pointer" src="/images/home.svg"
       /></a>
       <h1
@@ -85,7 +85,9 @@
     </div>
 
     <% if (vehicle_list.length) { %>
-    <ul class="my-8 flex flex-col gap-y-4 text-slate-700">
+    <ul
+      class="my-8 flex flex-col gap-y-4 text-slate-700 md:grid md:grid-cols-2 md:px-4 xl:grid-cols-3"
+    >
       <% for (vehicle of vehicle_list) { %>
       <li
         class="mx-4 p-4 gap-x-4 flex flex-row bg-white rounded-lg shadow-xl text-sm justify-between"

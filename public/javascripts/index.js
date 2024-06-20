@@ -37,6 +37,11 @@ const adjustScrollStop = () => {
   }
   if (window.innerWidth < 768) {
     if (!addMenu.classList.contains("hidden")) {
+      window.scroll({
+        top: 0,
+        left: 0,
+        behavior: "smooth",
+      });
       body.classList.add("stop-scroll");
     }
   }

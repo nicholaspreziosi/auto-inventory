@@ -13,7 +13,7 @@
     <div
       class="px-4 md:px-8 p-8 w-full bg-gradient-to-b from-purple-700 to-purple-400 flex row justify-center align-center"
     >
-      <a href="/inventory"
+      <a href="/inventory/vehicles"
         ><img class="w-8 cursor-pointer" src="/images/home.svg"
       /></a>
       <h1
@@ -54,12 +54,16 @@
       </div>
     </div>
 
-    <h1><%= title %></h1>
-
-    <form method="post">
-      <div>
-        <label for="year">Year:</label>
+    <form
+      class="flex flex-col items-center gap-y-8 my-8 mx-4 md:mx-8 text-slate-700"
+      method="post"
+    >
+      <div class="relative w-full max-w-xl">
+        <label class="px-2 absolute -top-3 left-2 bg-slate-100" for="year"
+          >Year:</label
+        >
         <input
+          class="w-full p-4 rounded-lg bg-slate-100 border border-slate-700 text-slate-700"
           id="year"
           name="year"
           type="number"
@@ -68,8 +72,17 @@
           value="<%= typeof year === `undefined` ? `` : year %>"
           autocomplete="off"
         />
-        <label for="make">Make:</label>
-        <select name="make" id="make" required>
+      </div>
+      <div class="relative w-full max-w-xl">
+        <label class="px-2 absolute -top-3 left-2 bg-slate-100" for="make"
+          >Make:</label
+        >
+        <select
+          class="w-full p-4 rounded-lg bg-slate-100 border border-slate-700 text-slate-700"
+          name="make"
+          id="make"
+          required
+        >
           <% for (item of makes) { %> <% if (typeof make != "undefined") { %> <%
           if (item.id === make.id) { %>
           <option selected value="<%= item.id %>"><%= item.name %></option>
@@ -79,9 +92,14 @@
           <option value="<%= item.id %>"><%= item.name %></option>
           <% } %> <% } %>
         </select>
+      </div>
 
-        <label for="model">Model:</label>
+      <div class="relative w-full max-w-xl">
+        <label class="px-2 absolute -top-3 left-2 bg-slate-100" for="model"
+          >Model:</label
+        >
         <input
+          class="w-full p-4 rounded-lg bg-slate-100 border border-slate-700 text-slate-700"
           id="model"
           name="model"
           type="text"
@@ -90,9 +108,14 @@
           value="<%= typeof model === `undefined` ? `` : model %>"
           autocomplete="off"
         />
+      </div>
 
-        <label for="trim">Trim:</label>
+      <div class="relative w-full max-w-xl">
+        <label class="px-2 absolute -top-3 left-2 bg-slate-100" for="trim"
+          >Trim:</label
+        >
         <input
+          class="w-full p-4 rounded-lg bg-slate-100 border border-slate-700 text-slate-700"
           id="trim"
           name="trim"
           type="text"
@@ -101,9 +124,14 @@
           value="<%= typeof trim === `undefined` ? `` : trim %>"
           autocomplete="off"
         />
+      </div>
 
-        <label for="vin">VIN #:</label>
+      <div class="relative w-full max-w-xl">
+        <label class="px-2 absolute -top-3 left-2 bg-slate-100" for="vin"
+          >VIN #:</label
+        >
         <input
+          class="w-full p-4 rounded-lg bg-slate-100 border border-slate-700 text-slate-700"
           id="vin"
           name="vin"
           type="text"
@@ -112,9 +140,14 @@
           value="<%= typeof vin === `undefined` ? `` : vin %>"
           autocomplete="off"
         />
+      </div>
 
-        <label for="price">Price:</label>
+      <div class="relative w-full max-w-xl">
+        <label class="px-2 absolute -top-3 left-2 bg-slate-100" for="price"
+          >Price:</label
+        >
         <input
+          class="w-full p-4 rounded-lg bg-slate-100 border border-slate-700 text-slate-700"
           id="price"
           name="price"
           type="number"
@@ -123,9 +156,14 @@
           value="<%= typeof price === `undefined` ? `` : price %>"
           autocomplete="off"
         />
+      </div>
 
-        <label for="miles">Mileage:</label>
+      <div class="relative w-full max-w-xl">
+        <label class="px-2 absolute -top-3 left-2 bg-slate-100" for="miles"
+          >Mileage:</label
+        >
         <input
+          class="w-full p-4 rounded-lg bg-slate-100 border border-slate-700 text-slate-700"
           id="miles"
           name="miles"
           type="number"
@@ -134,8 +172,14 @@
           value="<%= typeof miles === `undefined` ? `` : miles %>"
           autocomplete="off"
         />
-        <button type="submit">Submit</button>
       </div>
+
+      <button
+        class="py-4 px-8 rounded-lg bg-slate-100 box-content border border-slate-700 text-slate-700 transition hover:text-white hover:border-slate-100 hover:bg-gradient-to-b from-purple-700 to-purple-400 hover:"
+        type="submit"
+      >
+        Submit
+      </button>
     </form>
     <% if (typeof errors !== `undefined`) { %>
     <ul>
