@@ -54,20 +54,63 @@
       </div>
     </div>
 
-    <h1><%= make.name %></h1>
     <% if (make_vehicles.length) { %>
-    <ul>
+    <ul
+      class="my-8 flex flex-col gap-y-4 text-slate-700 md:grid md:grid-cols-2 md:px-4 xl:grid-cols-3"
+    >
       <% for (item of make_vehicles) { %>
-      <li>
-        <a href="<%= item.url %>"
-          ><%= item.year %> <%= make.name %> <%= item.model %> <%= item.trim %>
-          <%= item.price %> <%= item.stock %></a
-        >
+
+      <li
+        class="mx-4 p-4 gap-x-4 flex flex-row bg-white rounded-lg shadow-xl text-sm justify-between"
+      >
+        <img class="h-24" src="/images/placeholder.jpg" />
+        <div class="flex flex-col justify-between w-full">
+          <p class="text-sm font-bold">
+            <%= item.year %> <%= item.make.name %> <%= item.model %> <%=
+            item.trim %>
+          </p>
+          <div class="flex flex-row justify-between text-sm">
+            <p><%= item.stock %></p>
+            <p class="text-purple-700 font-bold">$<%= item.priceFormatted %></p>
+          </div>
+          <div class="flex flex-row justify-between gap-x-2">
+            <a
+              class="flex row justify-center cursor-pointer hover:underline"
+              href="<%= item.url %>"
+            >
+              Details
+            </a>
+            <a
+              class="flex row justify-center cursor-pointer hover:underline"
+              href="<%= item.url %>/update"
+            >
+              <img class="w-4" src="/images/pencil.svg" />
+              Edit
+            </a>
+            <a
+              class="flex row justify-center cursor-pointer hover:underline"
+              href="<%= item.url %>/delete"
+            >
+              <img class="w-4" src="/images/delete.svg" />
+              Delete
+            </a>
+          </div>
+        </div>
       </li>
       <% } %>
     </ul>
     <% } %>
-    <a href="<%= make.url %>/update">Edit</a>
-    <a href="<%= make.url %>/delete">Delete</a>
+    <div class="flex gap-x-4 justify-center m-8">
+      <a
+        class="py-4 px-8 rounded-lg bg-slate-100 box-content border border-slate-700 text-slate-700 transition hover:text-white hover:border-slate-100 hover:bg-gradient-to-b from-purple-700 to-purple-400 hover:"
+        href="<%= make.url %>/update"
+        >Edit Make</a
+      >
+      <a
+        class="py-4 px-8 rounded-lg bg-slate-100 box-content border border-slate-700 text-slate-700 transition hover:text-white hover:border-slate-100 hover:bg-gradient-to-b from-purple-700 to-purple-400 hover:"
+        href="<%= make.url %>/delete"
+        >Delete Make</a
+      >
+    </div>
   </body>
 </html>

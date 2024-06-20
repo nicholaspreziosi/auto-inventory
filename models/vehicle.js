@@ -29,5 +29,10 @@ VehicleSchema.virtual("priceFormatted").get(function () {
   return this.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 });
 
+// Virtual for vehicles's formatted miles
+VehicleSchema.virtual("milesFormatted").get(function () {
+  return this.miles.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+});
+
 // Export model
 module.exports = mongoose.model("Vehicle", VehicleSchema);

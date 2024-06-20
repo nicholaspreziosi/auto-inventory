@@ -35,7 +35,7 @@ exports.make_detail = asyncHandler(async (req, res, next) => {
     return next(err);
   }
   res.render("make_detail", {
-    title: "Make Detail",
+    title: make.name,
     make: make,
     make_vehicles: vehiclesInMake,
   });
@@ -91,7 +91,10 @@ exports.make_create_post = [
 exports.make_delete_get = asyncHandler(async (req, res, next) => {
   const [make, allVehiclesByMake] = await Promise.all([
     Make.findById(req.params.id).exec(),
-    Vehicle.find({ make: req.params.id }, "year model trim vin").exec(),
+    Vehicle.find(
+      { make: req.params.id },
+      "year model trim stock vin price"
+    ).exec(),
   ]);
 
   if (make === null) {

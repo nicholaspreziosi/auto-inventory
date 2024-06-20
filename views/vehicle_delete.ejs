@@ -54,16 +54,25 @@
       </div>
     </div>
 
-    <h1>
-      <%= title %>: <%= vehicle.year %> <%= vehicle.make.name %> <%=
-      vehicle.model %> <%= vehicle.trim %> <%= vehicle.vin %>
-    </h1>
+    <div class="flex flex-col items-center m-8 gap-y-8 text-slate-700">
+      <h1 class="font-bold text-center text-2xl">
+        <%= vehicle.year %> <%= vehicle.make.name %> <%= vehicle.model %> <%=
+        vehicle.trim %>
+      </h1>
+      <p class="text-sm">VIN #: <%= vehicle.vin %></p>
+      <p class="font-bold text-lg">
+        Do you really want to delete this vehicle?
+      </p>
 
-    <p>Do you really want to delete this vehicle?</p>
-
-    <form method="post">
-      <input type="hidden" name="vehicleid" value="<%= vehicle.id %>" />
-      <button type="submit">Delete</button>
-    </form>
+      <form method="post">
+        <input type="hidden" name="vehicleid" value="<%= vehicle.id %>" />
+        <button
+          class="py-4 px-8 rounded-lg bg-slate-100 box-content border border-slate-700 text-slate-700 transition hover:text-white hover:border-slate-100 hover:bg-gradient-to-b from-purple-700 to-purple-400 hover:"
+          type="submit"
+        >
+          Delete
+        </button>
+      </form>
+    </div>
   </body>
 </html>
