@@ -4,12 +4,21 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 require("dotenv").config();
+const cloudinary = require("cloudinary").v2;
+const upload = require("./multer-config.js");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 const inventoryRouter = require("./routes/catalog");
 
 var app = express();
+
+// Cloudinary configuration
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 // Set up mongoose connection
 const mongoose = require("mongoose");

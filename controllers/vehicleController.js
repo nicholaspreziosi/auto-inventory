@@ -2,6 +2,15 @@ const Vehicle = require("../models/vehicle");
 const Make = require("../models/make");
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
+const cloudinary = require("cloudinary").v2;
+const upload = require("../multer-config.js");
+
+// Cloudinary configuration
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 exports.index = asyncHandler(async (req, res, next) => {
   const [numVehicles, numMakes] = await Promise.all([
@@ -83,6 +92,9 @@ exports.vehicle_create_post = [
     .trim()
     .isInt({ min: 1, max: 1000000 })
     .escape(),
+  body("password", "Incorrect admin password... Please try again").equals(
+    process.env.ADMIN_PASSWORD
+  ),
 
   asyncHandler(async (req, res, next) => {
     // Extract the validation errors from a request.
@@ -200,6 +212,9 @@ exports.vehicle_update_post = [
     .trim()
     .isInt({ min: 1, max: 1000000 })
     .escape(),
+  body("password", "Incorrect admin password... Please try again").equals(
+    process.env.ADMIN_PASSWORD
+  ),
 
   asyncHandler(async (req, res, next) => {
     // Extract the validation errors from a request.

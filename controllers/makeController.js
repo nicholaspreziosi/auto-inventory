@@ -53,6 +53,9 @@ exports.make_create_post = [
     .trim()
     .isLength({ min: 3 })
     .escape(),
+  body("password", "Incorrect admin password... Please try again").equals(
+    process.env.ADMIN_PASSWORD
+  ),
 
   asyncHandler(async (req, res, next) => {
     // Extract the validation errors from a request.
@@ -144,6 +147,9 @@ exports.make_update_post = [
     .trim()
     .isLength({ min: 3 })
     .escape(),
+  body("password", "Incorrect admin password... Please try again").equals(
+    process.env.ADMIN_PASSWORD
+  ),
 
   asyncHandler(async (req, res, next) => {
     // Extract the validation errors from a request.
