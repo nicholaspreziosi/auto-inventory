@@ -1,6 +1,9 @@
 const addMenu = document.querySelector("#mobile-add");
 const toggle = document.querySelector("#add-toggle");
 const body = document.querySelector("body");
+const imageUpload = document.querySelector("#image-upload");
+const fileInput = document.querySelector("#image");
+const imagePreview = document.querySelector("#image-preview");
 
 const toggleAddMenu = () => {
   if (addMenu.classList.contains("hidden")) {
@@ -53,7 +56,20 @@ const onClickOutside = (ele, cb) => {
   });
 };
 
+const fileInputClick = () => {
+  fileInput.click();
+};
+
+const updateImage = () => {
+  const [file] = fileInput.files;
+  if (file) {
+    imagePreview.src = URL.createObjectURL(file);
+  }
+};
+
 toggle.addEventListener("click", toggleAddMenu);
 window.addEventListener("resize", adjustScrollStop);
 addMenu.addEventListener("click", closeAddMenu);
 onClickOutside(addMenu, closeAddMenu);
+imageUpload.addEventListener("click", fileInputClick);
+fileInput.addEventListener("change", updateImage);

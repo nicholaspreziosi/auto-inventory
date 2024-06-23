@@ -12,12 +12,22 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+// format image url to resize and crop
+function formatUrl(url) {
+  let arr = url.split("upload");
+  return (
+    url.split("upload")[0] +
+    "upload/c_fill,h_600,w_800" +
+    url.split("upload")[1]
+  );
+}
+
 exports.index = asyncHandler(async (req, res, next) => {
   const [numVehicles, numMakes] = await Promise.all([
     Vehicle.countDocuments({}).exec(),
     Make.countDocuments({}).exec(),
   ]);
-  res.render("index", {
+  res.redirect("index", {
     title: "Pre-Owned Vehicles",
     vehicle_count: numVehicles,
     make_count: numMakes,
@@ -27,7 +37,7 @@ exports.index = asyncHandler(async (req, res, next) => {
 // Display list of all vehicles.
 exports.vehicle_list = asyncHandler(async (req, res, next) => {
   const [allVehicles, numVehicles, numMakes] = await Promise.all([
-    Vehicle.find({}, "year make model price trim vin")
+    Vehicle.find({}, "year make model price trim vin image")
       .sort({ price: 1 })
       .populate("make")
       .exec(),
@@ -67,6 +77,8 @@ exports.vehicle_create_get = asyncHandler(async (req, res, next) => {
 
 // Handle vehicle create on POST.
 exports.vehicle_create_post = [
+  upload.single("image"),
+
   // Validate and sanitize the name field.
   body("year", "Year must be within 1900 and 2025")
     .trim()
@@ -100,6 +112,14 @@ exports.vehicle_create_post = [
     // Extract the validation errors from a request.
     const errors = validationResult(req);
 
+    let imgUrl = "/images/placeholder.jpg";
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        public_id: req.body.vin,
+      });
+      imgUrl = formatUrl(result.url);
+    }
+
     // Create a make object with escaped and trimmed data.
     const make = await Make.findById(req.body.make).exec();
     const vehicle = new Vehicle({
@@ -110,6 +130,7 @@ exports.vehicle_create_post = [
       vin: req.body.vin,
       price: req.body.price,
       miles: req.body.miles,
+      image: imgUrl,
     });
 
     if (!errors.isEmpty()) {
@@ -118,6 +139,7 @@ exports.vehicle_create_post = [
       res.render("vehicle_form", {
         title: "Add Vehicle",
         makes: allMakes,
+        make: make,
         year: req.body.year,
         model: req.body.model,
         trim: req.body.trim,
@@ -160,10 +182,32 @@ exports.vehicle_delete_get = asyncHandler(async (req, res, next) => {
 });
 
 // Handle vehicle delete on POST.
-exports.vehicle_delete_post = asyncHandler(async (req, res, next) => {
-  await Vehicle.findByIdAndDelete(req.params.id);
-  res.redirect("/inventory/vehicles");
-});
+exports.vehicle_delete_post = [
+  body("password", "Incorrect admin password... Please try again").equals(
+    process.env.ADMIN_PASSWORD
+  ),
+
+  asyncHandler(async (req, res, next) => {
+    const vehicle = await Vehicle.findById(req.params.id)
+      .populate("make")
+      .exec();
+
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.render("vehicle_delete", {
+        title: "Delete Vehicle",
+        vehicle: vehicle,
+        errors: errors.array(),
+      });
+      return;
+    } else {
+      await Vehicle.findByIdAndDelete(req.params.id);
+      res.redirect("/inventory/vehicles");
+    }
+  }),
+];
 
 // Display vehicle update form on GET.
 exports.vehicle_update_get = asyncHandler(async (req, res, next) => {
@@ -182,11 +226,13 @@ exports.vehicle_update_get = asyncHandler(async (req, res, next) => {
     vin: vehicle.vin,
     price: vehicle.price,
     miles: vehicle.miles,
+    image: vehicle.image,
   });
 });
 
 // Handle vehicle update on POST.
 exports.vehicle_update_post = [
+  upload.single("image"),
   // Validate and sanitize the name field.
   body("year", "Year must be within 1900 and 2025")
     .trim()
@@ -220,6 +266,15 @@ exports.vehicle_update_post = [
     // Extract the validation errors from a request.
     const errors = validationResult(req);
 
+    const vehicleImg = await Vehicle.findById(req.params.id).exec();
+    let imgUrl = vehicleImg.image;
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        public_id: req.body.vin,
+      });
+      imgUrl = formatUrl(result.url);
+    }
+
     // Create a make object with escaped and trimmed data.
     const make = await Make.findById(req.body.make).exec();
     const vehicle = new Vehicle({
@@ -231,6 +286,7 @@ exports.vehicle_update_post = [
       price: req.body.price,
       miles: req.body.miles,
       _id: req.params.id,
+      image: imgUrl,
     });
 
     if (!errors.isEmpty()) {
@@ -246,6 +302,7 @@ exports.vehicle_update_post = [
         vin: req.body.vin,
         price: req.body.price,
         miles: req.body.miles,
+        image: imgUrl,
         errors: errors.array(),
       });
       return;

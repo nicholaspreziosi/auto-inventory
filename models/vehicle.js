@@ -10,6 +10,7 @@ const VehicleSchema = new Schema({
   vin: { type: String, required: true },
   price: { type: Number, required: true },
   miles: { type: Number, required: true },
+  image: { type: String, required: true },
 });
 
 // Virtual for vehicles's URL

@@ -70,7 +70,7 @@
       <li
         class="mx-4 p-4 gap-x-4 flex flex-row bg-white rounded-lg shadow-xl text-sm justify-between"
       >
-        <img class="h-24" src="/images/placeholder.jpg" />
+        <img class="h-24" src="<%= item.image %>" />
         <div class="flex flex-col justify-between w-full">
           <p class="text-sm font-bold">
             <%= item.year %> <%= make.name %> <%= item.model %> <%= item.trim %>
@@ -106,7 +106,7 @@
       <% } %>
     </ul>
     <% } else { %>
-    <div class="flex flex-col items-center m-8 gap-y-8">
+    <div class="flex flex-col items-center mx-4 my-8 md:mx-8 gap-y-8">
       <h1 class="font-bold text-center text-2xl text-slate-700">
         <%= make.name %>
       </h1>
@@ -114,14 +114,39 @@
         Do you really want to delete this make?
       </p>
 
-      <form method="post">
+      <form
+        class="mx-4 md:mx-8 w-full flex flex-col items-center gap-y-8 md:mx-8 text-slate-700"
+        method="post"
+      >
         <input type="hidden" name="makeid" value="<%= make.id %>" />
+
+        <div class="relative w-full max-w-xl">
+          <label class="px-2 absolute -top-3 left-2 bg-slate-100" for="vin"
+            >Admin Password:</label
+          >
+          <input
+            class="w-full p-4 rounded-lg bg-slate-100 border border-slate-700 text-slate-700"
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Admin Password"
+            required
+            autocomplete="off"
+          />
+        </div>
         <button
           class="py-4 px-8 rounded-lg bg-slate-100 box-content border border-slate-700 text-slate-700 transition hover:text-white hover:border-slate-100 hover:bg-gradient-to-b from-purple-700 to-purple-400 hover:"
           type="submit"
         >
           Delete
         </button>
+        <% if (typeof errors !== `undefined`) { %>
+        <ul class="text-red-600 font-semi-bold">
+          <% for (item of errors) { %>
+          <li><%= item.msg %></li>
+          <% } %>
+        </ul>
+        <% } %>
       </form>
     </div>
 

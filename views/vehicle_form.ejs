@@ -57,6 +57,7 @@
     <form
       class="flex flex-col items-center gap-y-8 my-8 mx-4 md:mx-8 text-slate-700"
       method="post"
+      enctype="multipart/form-data"
     >
       <div class="relative w-full max-w-xl">
         <label class="px-2 absolute -top-3 left-2 bg-slate-100" for="year"
@@ -174,17 +175,38 @@
         />
       </div>
 
-      <div class="relative w-full max-w-xl">
+      <div
+        class="p-4 relative w-full max-w-xl flex flex-col gap-y-4 gap-x-4 md:flex-row justify-evenly items-center rounded-lg border border-slate-700"
+      >
         <label class="px-2 absolute -top-3 left-2 bg-slate-100" for="miles"
           >Image:</label
         >
         <input
-          class="w-full p-4 rounded-lg bg-slate-100 border border-slate-700 text-slate-700"
+          class="hidden w-full bg-slate-100 text-slate-700"
           id="image"
           name="image"
           type="file"
           value="<%= typeof image === `undefined` ? `` : image %>"
         />
+        <% if (typeof image != "undefined") { %>
+        <img
+          id="image-preview"
+          class="w-full h-auto md:h-64 md:w-auto"
+          src="<%= image %>"
+        />
+        <% } else { %>
+        <img
+          id="image-preview"
+          class="w-full h-auto md:h-64 md:w-auto"
+          src="/images/placeholder.jpg"
+        />
+        <% } %>
+        <div
+          id="image-upload"
+          class="cursor-pointer h-fit py-4 px-8 rounded-lg bg-slate-100 box-content border border-slate-700 text-slate-700 transition hover:text-white hover:border-slate-100 hover:bg-gradient-to-b from-purple-700 to-purple-400 hover:"
+        >
+          Upload Image
+        </div>
       </div>
 
       <div class="relative w-full max-w-xl">

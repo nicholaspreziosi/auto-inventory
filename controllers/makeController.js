@@ -23,7 +23,10 @@ exports.make_detail = asyncHandler(async (req, res, next) => {
   // Get details of Make and all associated vehicles (in parallel)
   const [make, vehiclesInMake] = await Promise.all([
     Make.findById(req.params.id).exec(),
-    Vehicle.find({ make: req.params.id }, "year make model price trim vin")
+    Vehicle.find(
+      { make: req.params.id },
+      "year make model price trim vin image"
+    )
       .sort({ price: 1 })
       .exec(),
   ]);
@@ -96,7 +99,7 @@ exports.make_delete_get = asyncHandler(async (req, res, next) => {
     Make.findById(req.params.id).exec(),
     Vehicle.find(
       { make: req.params.id },
-      "year model trim stock vin price"
+      "year model trim stock vin price image"
     ).exec(),
   ]);
 
@@ -112,24 +115,42 @@ exports.make_delete_get = asyncHandler(async (req, res, next) => {
 });
 
 // Handle Make delete on POST.
-exports.make_delete_post = asyncHandler(async (req, res, next) => {
-  const [make, allVehiclesByMake] = await Promise.all([
-    Make.findById(req.params.id).exec(),
-    Vehicle.find({ make: req.params.id }, "year model trim vin").exec(),
-  ]);
+exports.make_delete_post = [
+  body("password", "Incorrect admin password... Please try again").equals(
+    process.env.ADMIN_PASSWORD
+  ),
 
-  if (allVehiclesByMake.length > 0) {
-    res.render("make_delete", {
-      title: "Delete Make",
-      make: make,
-      make_vehicles: allVehiclesByMake,
-    });
-    return;
-  } else {
-    await Make.findByIdAndDelete(req.params.id);
-    res.redirect("/inventory/makes");
-  }
-});
+  asyncHandler(async (req, res, next) => {
+    const [make, allVehiclesByMake] = await Promise.all([
+      Make.findById(req.params.id).exec(),
+      Vehicle.find({ make: req.params.id }, "year model trim vin image").exec(),
+    ]);
+
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+
+    if (allVehiclesByMake.length > 0) {
+      res.render("make_delete", {
+        title: "Delete Make",
+        make: make,
+        make_vehicles: allVehiclesByMake,
+      });
+      return;
+    } else if (!errors.isEmpty()) {
+      // There are errors. Render the form again with sanitized values/error messages.
+      res.render("make_delete", {
+        title: "Update Make",
+        make: make,
+        make_vehicles: allVehiclesByMake,
+        errors: errors.array(),
+      });
+      return;
+    } else {
+      await Make.findByIdAndDelete(req.params.id);
+      res.redirect("/inventory/makes");
+    }
+  }),
+];
 
 // Display Make update form on GET.
 exports.make_update_get = asyncHandler(async (req, res, next) => {
