@@ -4,6 +4,9 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 require("dotenv").config();
+const compression = require("compression");
+const helmet = require("helmet");
+const RateLimit = require("express-rate-limit");
 
 // import routers
 var indexRouter = require("./routes/index");
@@ -11,6 +14,35 @@ var usersRouter = require("./routes/users");
 const inventoryRouter = require("./routes/catalog");
 
 var app = express();
+
+// Compress all routes
+app.use(compression());
+
+// Add helmet to the middleware chain.
+app.use(helmet());
+app.use(helmet.crossOriginEmbedderPolicy({ policy: "credentialless" }));
+app.use(
+  helmet({
+    crossOriginEmbedderPolicy: false,
+    originAgentCluster: true,
+  })
+);
+app.use(
+  helmet.contentSecurityPolicy({
+    useDefaults: true,
+    directives: {
+      "img-src": ["'self'", "https:", "data:", "blob:"],
+    },
+  })
+);
+
+// Set up rate limiter: maximum of twenty requests per minute
+const limiter = RateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 200,
+});
+// Apply rate limiter to all requests
+app.use(limiter);
 
 // Set up mongoose connection
 const mongoose = require("mongoose");
