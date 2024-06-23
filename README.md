@@ -5,7 +5,7 @@ This auto inventory app is a intuitive CRUD app created with EJS, JavaScript, an
 <p align="center">
     <a href="">
         <img
-            src="./public/images/portfolio.jpeg"
+            src="./public/images/autoinventory.jpeg"
             alt="Auto Inventory App Preview">
         </img>
     </a>
@@ -44,7 +44,7 @@ This auto inventory app is a intuitive CRUD app created with EJS, JavaScript, an
         HTML
     </li>
     <li style="margin: auto">
-        <img src="./public/images/ejs.png" width="auto" height="25" alt="EJS Powered" title="EJS Powered">/>
+        <img src="./public/images/ejs.png" width="auto" height="25" alt="EJS Powered" title="EJS Powered">
         Embedded JavaScript Templates
     </li>
     <li>
