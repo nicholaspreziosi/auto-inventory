@@ -127,7 +127,6 @@ exports.vehicle_create_post = [
 
     let imgUrl = "/images/placeholder.jpg";
     if (req.file) {
-      console.log(req.file.path);
       const result = await cloudinary.uploader.upload(req.file.path, {
         public_id: req.body.vin,
       });
