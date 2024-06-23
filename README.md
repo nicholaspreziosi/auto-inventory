@@ -3,7 +3,7 @@
 This auto inventory app is a intuitive CRUD app created with EJS, JavaScript, and Tailwind CSS. The backend is powered by Node.js, Express, MondoDB, and Mongoose. The use of Multer middleware and Cloudinary enables the ability to upload images for each inventory item. Please follow the instructions below for cloning the repo, setting up the development environment, and running the app.
 
 <p align="center">
-    <a href="">
+    <a href="https://auto-inventory.fly.dev/inventory/vehicles">
         <img
             src="./public/images/autoinventory.jpg"
             alt="Auto Inventory App Preview">
@@ -81,4 +81,4 @@ This auto inventory app is a intuitive CRUD app created with EJS, JavaScript, an
 
 ## Live Demo
 
-View a live demo [here]().
+View a live demo [here](https://auto-inventory.fly.dev/inventory/vehicles).
