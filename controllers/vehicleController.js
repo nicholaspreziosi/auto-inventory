@@ -104,16 +104,30 @@ exports.vehicle_create_post = [
     .trim()
     .isInt({ min: 1, max: 1000000 })
     .escape(),
+  body("image")
+    .custom(async (value, { req }) => {
+      if (
+        !req.file ||
+        req.file.mimetype === "image/jpeg" ||
+        req.file.mimetype === "image/png"
+      ) {
+        return true;
+      } else {
+        throw new Error("Images must be in jpg, jpeg, or png formats");
+      }
+    })
+    .withMessage("Images must be in jpg, jpeg, or png formats"),
   body("password", "Incorrect admin password... Please try again").equals(
     process.env.ADMIN_PASSWORD
   ),
 
   asyncHandler(async (req, res, next) => {
-    // Extract the validation errors from a request.
+    // Extract the validation errors from a request and check file upload image format.
     const errors = validationResult(req);
 
     let imgUrl = "/images/placeholder.jpg";
     if (req.file) {
+      console.log(req.file.path);
       const result = await cloudinary.uploader.upload(req.file.path, {
         public_id: req.body.vin,
       });
@@ -258,6 +272,17 @@ exports.vehicle_update_post = [
     .trim()
     .isInt({ min: 1, max: 1000000 })
     .escape(),
+  body("image").custom(async (value, { req }) => {
+    if (
+      !req.file ||
+      req.file.mimetype === "image/jpeg" ||
+      req.file.mimetype === "image/png"
+    ) {
+      return true;
+    } else {
+      throw new Error("Images must be in jpg, jpeg, or png formats");
+    }
+  }),
   body("password", "Incorrect admin password... Please try again").equals(
     process.env.ADMIN_PASSWORD
   ),
