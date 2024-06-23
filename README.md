@@ -5,7 +5,7 @@ This auto inventory app is a intuitive CRUD app created with EJS, JavaScript, an
 <p align="center">
     <a href="">
         <img
-            src="./public/images/autoinventory.jpeg"
+            src="./public/images/autoinventory.jpg"
             alt="Auto Inventory App Preview">
         </img>
     </a>
